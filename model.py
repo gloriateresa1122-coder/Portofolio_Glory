@@ -17,25 +17,26 @@ class Database:
 
     def get_connection(self):
         if self._conn is None or not self._conn.open:
-            self._conn = pymysql.connect(
-                host=Config.DB_HOST,
-                user=Config.DB_USER,
-                password=Config.DB_PASSWORD,
-                database=Config.DB_NAME,
-                port=Config.DB_PORT,
-
-                ssl={
-                    "ca": None,
-                    "check_hostname": False
-                },
-
-                connect_timeout=10,
-                read_timeout=10,
-                write_timeout=10,
-
-                autocommit=False,
-                cursorclass=pymysql.cursors.DictCursor
-            )
+            try:
+                # Tambahkan logger untuk membantu debugging di Vercel Logs
+                logger.info(f"Mencoba koneksi ke: {Config.DB_HOST}")
+                
+                self._conn = pymysql.connect(
+                    host=Config.DB_HOST,
+                    user=Config.DB_USER,
+                    password=Config.DB_PASSWORD,
+                    database=Config.DB_NAME,
+                    port=int(Config.DB_PORT),
+                    ssl={"ca": None},
+                    connect_timeout=10,
+                    autocommit=True, # Mengubah ke True agar koneksi lebih stabil
+                    cursorclass=pymysql.cursors.DictCursor
+                )
+                logger.info("Koneksi database berhasil!")
+            except Exception as e:
+                # Bagian ini akan mencetak error ke Dashboard Vercel Logs
+                logger.error(f"GAGAL KONEKSI DATABASE: {str(e)}")
+                raise e 
         return self._conn
 
     def execute_query(self, query, params=None, fetch=False):
