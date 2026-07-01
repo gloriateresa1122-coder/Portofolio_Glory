@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin - Akun</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+.password-box{
+position:relative;
+}
+
+.password-box input{
+width:100%;
+}
+
+.password-box i{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#888;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2>Admin Panel</h2>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a href="pengalaman.html">
+<i class="fa-solid fa-briefcase"></i>
+Experience
+</a>
+
+<a href="proyek.html">
+<i class="fa-solid fa-folder"></i>
+Project
+</a>
+
+<a href="skill.html">
+<i class="fa-solid fa-star"></i>
+Skills
+</a>
+
+<a class="active">
+<i class="fa-solid fa-user"></i>
+Akun
+</a>
+
+<a onclick="logout()" style="cursor:pointer;">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<div class="topbar">
+
+<h1>Pengaturan Akun</h1>
+
+<span>
+Halo, <b id="username">Admin</b>
+</span>
+
+</div>
+
+<!-- INFO -->
+<div class="latest">
+
+<h2>Informasi Akun</h2>
+
+<div class="grid">
+
+<div class="box">
+<h3>Username</h3>
+<p id="showUsername">-</p>
+</div>
+
+<div class="box">
+<h3>Status</h3>
+<p>🟢 Aktif</p>
+</div>
+
+<div class="box">
+<h3>Role</h3>
+<p>Admin</p>
+</div>
+
+<div class="box">
+<h3>Login Status</h3>
+<p>Logged In</p>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="latest">
+
+<h2>Profil Website</h2>
+<form id="profileForm">
+    <div class="input-group">
+        <label>Foto Profil</label>
+        <input id="foto" type="file" accept="image/*">
+        <input type="hidden" id="foto_url">
+        <img id="previewFoto" src="" width="120" style="margin-top:10px;border-radius:10px; display:block;">
+    </div>
+
+    <button type="submit" class="btn-save">
+        <i class="fa-solid fa-floppy-disk"></i> Simpan Foto Profil
+    </button>
+
+    <button type="button" onclick="hapusFoto()" class="btn-delete" style="background-color: #dc3545; color: white; margin-top: 10px; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">
+        <i class="fa-solid fa-trash"></i> Hapus Foto Profil
+    </button>
+</form>
+
+</div>
+
+
+<!-- PASSWORD -->
+<div class="latest">
+
+<h2>Ganti Password</h2>
+
+<form id="passwordForm">
+
+<div class="input-group">
+
+<label>Password Lama</label>
+
+<div class="password-box">
+
+<input
+id="oldPassword"
+type="password"
+placeholder="Masukkan password lama">
+
+<i
+class="fa-solid fa-eye"
+onclick="togglePassword('oldPassword',this)">
+</i>
+
+</div>
+
+</div>
+
+    <div class="input-group">
+
+<label>Password Baru</label>
+
+<div class="password-box">
+
+<input
+id="password"
+type="password"
+placeholder="Masukkan password baru">
+
+<i
+class="fa-solid fa-eye"
+onclick="togglePassword('password',this)">
+</i>
+
+</div>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Konfirmasi Password</label>
+
+<div class="password-box">
+
+<input
+id="confirmPassword"
+type="password"
+placeholder="Ulangi password baru">
+
+<i
+class="fa-solid fa-eye"
+onclick="togglePassword('confirmPassword',this)">
+</i>
+
+</div>
+
+</div>
+
+
+<button type="submit">
+
+<i class="fa-solid fa-lock"></i>
+
+Update Password
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// ==================== HAPUS FOTO ====================
+async function hapusFoto() {
+    // 1. Konfirmasi hapus
+    if (!confirm("Apakah kamu yakin ingin menghapus foto ini?")) return;
+
+    try {
+        // 2. Kirim request DELETE ke backend
+        const response = await fetch(`${API}/profiles`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        });
+        
+        const result = await response.json();
+        
+        // 3. Update tampilan setelah sukses
+        if (result.success) {
+            alert("Foto berhasil dihapus!");
+            document.getElementById("previewFoto").src = ""; // Menghilangkan gambar di layar
+            document.getElementById("foto_url").value = "";  // Mengosongkan data di input hidden
+        } else {
+            alert("Gagal menghapus: " + result.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Terjadi kesalahan pada server.");
+    }
+}
+
+// tampilkan username
+const username =
+localStorage.getItem("username")
+|| "Admin";
+
+document.getElementById("username").innerText =
+username;
+
+document.getElementById("showUsername").innerText =
+username;
+
+const API = "http://127.0.0.1:5000/api";
+
+
+// tombol mata
+function togglePassword(id,icon){
+
+const input =
+document.getElementById(id);
+
+if(input.type==="password"){
+
+input.type="text";
+
+icon.classList.remove("fa-eye");
+
+icon.classList.add("fa-eye-slash");
+
+}else{
+
+input.type="password";
+
+icon.classList.remove("fa-eye-slash");
+
+icon.classList.add("fa-eye");
+
+}
+
+}
+
+
+async function uploadImage(){
+
+    const file = document.getElementById("foto").files[0];
+
+    if(!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try{
+
+        const response = await fetch(`${API}/upload/image`,{
+
+            method:"POST",
+
+            headers:{
+                Authorization:"Bearer " + localStorage.getItem("token")
+            },
+
+            body:formData
+
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+
+            document.getElementById("foto_url").value = result.url;
+
+            document.getElementById("previewFoto").src = result.url;
+
+            alert("Foto berhasil diupload");
+
+        }else{
+            alert(result.error);
+        }
+
+    }catch(err){
+
+        console.log(err);
+
+        alert("Upload gagal");
+
+    }
+
+}
+
+document
+.getElementById("foto")
+.addEventListener("change", uploadImage);
+
+document.getElementById("passwordForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const old_password =
+        document.getElementById("oldPassword").value;
+
+    const new_password =
+        document.getElementById("password").value;
+
+    const confirm_password =
+        document.getElementById("confirmPassword").value;
+
+    if(new_password !== confirm_password){
+
+        alert("Konfirmasi password tidak sama");
+        return;
+
+    }
+
+    try{
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/api/account/change-password",
+            {
+
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":"Bearer " + localStorage.getItem("token")
+                },
+
+                body:JSON.stringify({
+                    old_password,
+                    new_password,
+                    confirm_password
+                })
+
+            }
+        );
+
+        const result = await response.json();
+
+        alert(result.message);
+
+        if(result.success){
+
+            document.getElementById("passwordForm").reset();
+
+        }
+
+    }catch(err){
+
+        console.log(err);
+        alert("Gagal terhubung ke server");
+
+    }
+
+});
+
+
+// logout
+function logout(){
+
+localStorage.removeItem("token");
+
+window.location.href=
+"login.html";
+
+}
+
+
+// proteksi login
+if(
+!localStorage.getItem("token")
+){
+
+window.location.href=
+"login.html";
+
+}
+
+// ==================== LOAD FOTO ====================
+async function loadProfile(){
+    try{
+        const response = await fetch(`${API}/profiles`,{
+            headers:{ Authorization:"Bearer " + localStorage.getItem("token") }
+        });
+        const result = await response.json();
+        if(result.success && result.data.foto_url){
+            document.getElementById("foto_url").value = result.data.foto_url;
+            document.getElementById("previewFoto").src = result.data.foto_url;
+        }
+    }catch(err){ console.log(err); }
+}
+
+// ==================== SIMPAN FOTO ====================
+document.getElementById("profileForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    
+    // Hanya kirim foto_url
+    const data = { foto_url: document.getElementById("foto_url").value };
+
+    try{
+        const response = await fetch(`${API}/profiles`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:"Bearer " + localStorage.getItem("token")
+            },
+            body:JSON.stringify(data)
+        });
+        const result = await response.json();
+        alert("Foto profil berhasil disimpan!");
+    }catch(err){ 
+        console.log(err); 
+        alert("Gagal menyimpan foto.");
+    }
+});
+
+loadProfile();
+
+</script>
+
+</body>
+</html>

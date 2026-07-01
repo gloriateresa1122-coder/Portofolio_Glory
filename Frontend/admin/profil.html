@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin - Projects</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>Admin Panel</h2>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a href="profil.html">
+<i class="fa-solid fa-user"></i>
+Profil
+</a>
+
+<a href="pengalaman.html">
+<i class="fa-solid fa-briefcase"></i>
+Experience
+</a>
+
+<a class="active">
+<i class="fa-solid fa-folder"></i>
+Projects
+</a>
+
+<a href="skill.html">
+<i class="fa-solid fa-star"></i>
+Skills
+</a>
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<div class="topbar">
+
+<h1>Kelola Project</h1>
+
+<span>Halo, admin</span>
+
+</div>
+
+
+
+<!-- FORM -->
+
+<div class="latest">
+
+<h2>Tambah / Edit Project</h2>
+
+<form>
+
+<div class="input-group">
+
+<label>Judul Project</label>
+
+<input
+type="text"
+placeholder="Contoh: Website Portofolio">
+
+</div>
+
+
+
+<div class="input-group">
+
+<label>Deskripsi</label>
+
+<textarea
+rows="5"
+placeholder="Deskripsikan project">
+</textarea>
+
+</div>
+
+
+
+<div class="grid">
+
+<div class="input-group">
+
+<label>Teknologi</label>
+
+<input
+type="text"
+placeholder="HTML • CSS • Flask">
+
+</div>
+
+<div class="input-group">
+
+<label>Link Project</label>
+
+<input
+type="text"
+placeholder="https://">
+
+</div>
+
+</div>
+
+
+
+<div class="upload-box">
+
+<i class="fa-solid fa-image"></i>
+
+<p>Upload Gambar Project</p>
+
+<input
+type="file"
+id="projectImage"
+accept="image/*">
+
+</div>
+
+
+
+<button type="submit">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Simpan Project
+
+</button>
+
+</form>
+
+</div>
+
+
+
+<!-- LIST -->
+
+<div class="latest">
+
+<h2>Daftar Project</h2>
+
+<div class="project-grid" id="project-list">
+  </div>
+
+<div class="project-card">
+
+<div class="project-image">
+
+<i class="fa-solid fa-code"></i>
+
+</div>
+
+<h3>Website Portofolio</h3>
+
+<p>
+
+Portfolio berbasis Flask
+dengan Cloudinary.
+
+</p>
+
+<span>
+
+HTML • CSS • Flask
+
+</span>
+
+<div class="actions">
+
+<button class="edit">
+
+<i class="fa-solid fa-pen"></i>
+
+Edit
+
+</button>
+
+<button class="delete">
+
+<i class="fa-solid fa-trash"></i>
+
+Hapus
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<div class="project-card">
+
+<div class="project-image">
+
+<i class="fa-solid fa-laptop"></i>
+
+</div>
+
+<h3>Dashboard Admin</h3>
+
+<p>
+
+Dashboard CRUD modern.
+
+</p>
+
+<span>
+
+JS • Flask
+
+</span>
+
+<div class="actions">
+
+<button class="edit">
+
+Edit
+
+</button>
+
+<button class="delete">
+
+Hapus
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+function logout(){
+
+localStorage.removeItem("token");
+
+window.location.href="login.html";
+
+}
+
+if(!localStorage.getItem("token")){
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+<script src="js/proyek.js"></script>
+
+</body>
+
+</html>

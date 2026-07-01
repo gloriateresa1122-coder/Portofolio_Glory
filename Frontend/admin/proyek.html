@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin - Projects</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2>Admin Panel</h2>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a href="pengalaman.html">
+<i class="fa-solid fa-briefcase"></i>
+Experience
+</a>
+
+<a class="active">
+<i class="fa-solid fa-folder"></i>
+Projects
+</a>
+
+<a href="skill.html">
+<i class="fa-solid fa-star"></i>
+Skills
+</a>
+
+<a href="akun.html">
+<i class="fa-solid fa-user"></i>
+Akun
+</a>
+
+<a onclick="logout()" style="cursor:pointer;">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- TOPBAR -->
+<div class="topbar">
+<h1>Kelola Project</h1>
+<span>Halo, admin</span>
+</div>
+
+<!-- FORM -->
+<div class="latest" id="form-section">
+<h2>Tambah / Edit Project</h2>
+
+<form>
+
+<div class="input-group">
+<label>Nama Project</label>
+<input type="text" placeholder="Masukkan nama project">
+</div>
+
+<div class="input-group">
+<label>Deskripsi</label>
+<textarea rows="5" placeholder="Deskripsi project"></textarea>
+</div>
+
+<div class="input-group">
+<label>Teknologi</label>
+<input
+type="text"
+placeholder="Contoh: Java, MySQL, ERP (Pisahkan dengan koma)">
+
+</div>
+
+
+<button type="submit">
+<i class="fa-solid fa-floppy-disk"></i>
+Simpan Project
+</button>
+
+</form>
+</div>
+
+<!-- LIST PROJECT (DINAMIS READY) -->
+<div class="latest">
+<h2>Daftar Project</h2>
+
+<div class="project-grid" id="projectList">
+
+<!-- nanti diisi dari API -->
+<!-- contoh template akan di-render JS -->
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+function logout(){
+localStorage.removeItem("token");
+window.location.href="login.html";
+}
+
+if(!localStorage.getItem("token")){
+window.location.href="login.html";
+}
+</script>
+
+<script src="js/proyek.js"></script> 
+
+
+</body>
+</html> 

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin - Experience</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h2>Admin Panel</h2>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a class="active">
+<i class="fa-solid fa-briefcase"></i>
+Experience
+</a>
+
+<a href="proyek.html">
+<i class="fa-solid fa-folder"></i>
+Project
+</a>
+
+<a href="skill.html">
+<i class="fa-solid fa-star"></i>
+Skills
+</a>
+
+<a href="akun.html">
+<i class="fa-solid fa-user"></i>
+Akun
+</a>
+
+<a onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<div class="content">
+
+<div class="topbar">
+
+<h1>Kelola Pengalaman</h1>
+
+<span>Halo, admin</span>
+
+</div>
+
+<div class="latest">
+
+<h2>Tambah / Edit Pengalaman</h2>
+
+<form id="experienceForm">
+
+<input type="hidden" id="expId">
+
+<div class="input-group">
+
+<label>Periode</label>
+
+<input
+id="durasi"
+type="text"
+required>
+
+</div>
+
+<div class="grid">
+
+<div class="input-group">
+
+<label>Posisi</label>
+
+<input
+id="posisi"
+type="text"
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>Perusahaan</label>
+
+<input
+id="perusahaan"
+type="text"
+required>
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Deskripsi</label>
+
+<textarea
+id="deskripsi"
+rows="5">
+</textarea>
+
+</div>
+
+<!-- TAMBAHKAN BAGIAN INI -->
+<div class="input-group">
+
+<label>Foto Experience</label>
+
+<input
+id="foto"
+type="file"
+accept="image/*">
+
+<input type="hidden" id="image_url">
+
+</div>
+<!-- SAMPAI SINI -->
+
+<button type="submit">
+
+Simpan
+
+</button>
+
+</form>
+
+</div>
+
+<div class="latest">
+
+<h2>Daftar Pengalaman</h2>
+
+<div id="experienceList">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const API =
+"http://127.0.0.1:5000/api";
+
+async function uploadImage(){
+
+    const file = document.getElementById("foto").files[0];
+
+    if(!file) return;
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    try{
+
+        const res = await fetch(`${API}/upload/image`,{
+
+    method:"POST",
+
+    headers:{
+        Authorization:`Bearer ${localStorage.getItem("token")}`
+    },
+
+    body:formData
+
+});
+
+const result = await res.json();
+
+console.log("HASIL UPLOAD:", result);
+console.log("URL:", result.url);
+
+if(result.success){
+
+    console.log("URL CLOUDINARY:", result.url);
+
+    document.getElementById("image_url").value = result.url;
+
+    alert("Foto berhasil diupload");
+
+}else{
+
+    alert(result.error);
+
+}
+
+    }catch(err){
+
+        console.log(err);
+
+    }
+
+}
+
+
+function logout(){
+
+localStorage.removeItem("token");
+
+window.location=
+"login.html";
+
+}
+
+
+
+if(
+!localStorage.getItem("token")
+){
+
+window.location=
+"login.html";
+
+}
+
+
+
+// LOAD
+
+async function loadExperience(){
+
+try{
+
+const res =
+await fetch(
+`${API}/experiences`
+);
+
+const result =
+await res.json();
+
+const list =
+document.getElementById(
+"experienceList"
+);
+
+list.innerHTML="";
+
+
+(result.data || []).forEach(exp => {
+
+list.innerHTML += `
+
+<div class="exp-card">
+
+${exp.image_url ? `
+<img src="${exp.image_url}"
+     style="width:100%;max-width:300px;border-radius:10px;margin-bottom:10px;">
+` : ""}
+
+<h3>${exp.posisi}</h3>
+
+<p>${exp.perusahaan}</p>
+
+<p>${exp.durasi}</p>
+
+<p>${exp.deskripsi}</p>
+
+<div style="display:flex;gap:10px;margin-top:10px;">
+
+<button onclick="editExperience(${exp.id})">
+Edit
+</button>
+
+<button onclick="deleteExperience(${exp.id})">
+Hapus
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+
+
+// CREATE UPDATE
+
+document
+.getElementById(
+"experienceForm")
+.addEventListener(
+"submit",
+async function(e){
+
+e.preventDefault();
+
+const id =
+document
+.getElementById(
+"expId"
+).value;
+
+
+const formData = new FormData();
+
+formData.append(
+"durasi",
+document.getElementById("durasi").value
+);
+
+formData.append(
+"posisi",
+document.getElementById("posisi").value
+);
+
+formData.append(
+"perusahaan",
+document.getElementById("perusahaan").value
+);
+
+formData.append(
+"deskripsi",
+document.getElementById("deskripsi").value
+);
+
+formData.append( "image_url", document.getElementById("image_url").value );
+
+
+const url =
+id
+?
+`${API}/experiences/${id}`
+:
+`${API}/experiences`;
+
+
+const method =
+id
+?
+"PUT"
+:
+"POST";
+
+
+try{
+
+console.log("IMAGE URL:", document.getElementById("image_url").value);
+
+const res =
+await fetch(
+
+url,
+
+{
+
+method,
+
+headers:{
+
+Authorization:
+`Bearer ${localStorage.getItem("token")}`
+
+},
+
+body:
+formData
+
+}
+
+);
+
+const result =
+await res.json();
+
+alert(
+result.message ||
+"Berhasil"
+);
+
+
+this.reset();
+
+document
+.getElementById(
+"expId"
+).value="";
+
+loadExperience();
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+);
+
+
+
+
+// EDIT
+
+async function editExperience(id){
+
+const res =
+await fetch(
+`${API}/experiences/${id}`
+);
+
+const result =
+await res.json();
+
+const exp =
+result.data;
+
+
+document
+.getElementById(
+"expId"
+).value=
+exp.id;
+
+
+document
+.getElementById(
+"durasi"
+).value=
+exp.durasi;
+
+
+document
+.getElementById(
+"posisi"
+).value=
+exp.posisi;
+
+
+document
+.getElementById(
+"perusahaan"
+).value=
+exp.perusahaan;
+
+
+document
+.getElementById(
+"deskripsi"
+).value=
+exp.deskripsi;
+
+document
+.getElementById(
+"image_url"
+).value =
+exp.image_url || "";
+
+window.scrollTo({
+
+top:0,
+
+behavior:
+"smooth"
+
+});
+
+}
+
+
+
+// DELETE
+
+async function deleteExperience(id){
+
+if(
+!confirm(
+"Yakin hapus?"
+)
+)
+return;
+
+
+try{
+
+const res =
+await fetch(
+
+`${API}/experiences/${id}`,
+
+{
+
+method:
+"DELETE",
+
+headers:{
+
+Authorization:
+`Bearer ${localStorage.getItem("token")}`
+
+}
+
+}
+
+);
+
+
+const result =
+await res.json();
+
+alert(
+result.message
+);
+
+loadExperience();
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+document
+.getElementById("foto")
+.addEventListener("change", uploadImage);
+
+loadExperience();
+
+</script>
+
+</body>
+
+</html>
+
+
+

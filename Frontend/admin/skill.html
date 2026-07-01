@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin - Skills</title>
+
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2>Admin Panel</h2>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-house"></i>
+Dashboard
+</a>
+
+<a href="pengalaman.html">
+<i class="fa-solid fa-briefcase"></i>
+Experience
+</a>
+
+<a href="proyek.html">
+<i class="fa-solid fa-folder"></i>
+Project
+</a>
+
+<a class="active">
+<i class="fa-solid fa-star"></i>
+Skills
+</a>
+
+<a href="akun.html">
+<i class="fa-solid fa-user"></i>
+Akun
+</a>
+
+<a onclick="logout()" style="cursor:pointer;">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<div class="topbar">
+<h1>Kelola Skill</h1>
+<span>Halo, admin</span>
+</div>
+
+<!-- FORM -->
+<div class="latest">
+
+<h2>Tambah / Edit Skill</h2>
+
+<form id="skillForm">
+
+<div class="input-group">
+<label>Nama Skill</label>
+<input
+id="skillName"
+type="text"
+placeholder="Contoh: ERP (Adempiere)">
+</div>
+
+<div class="input-group">
+<label>Icon Skill</label>
+<select id="skillIcon">
+
+    <optgroup label="Programming">
+        <option value="fa-brands fa-html5">HTML5</option>
+        <option value="fa-brands fa-css3-alt">CSS3</option>
+        <option value="fa-brands fa-js">JavaScript</option>
+        <option value="fa-brands fa-java">Java</option>
+        <option value="fa-brands fa-python">Python</option>
+        <option value="fa-brands fa-php">PHP</option>
+        <option value="fa-solid fa-code">Programming</option>
+    </optgroup>
+
+    <optgroup label="Framework">
+        <option value="fa-brands fa-bootstrap">Bootstrap</option>
+        <option value="fa-brands fa-react">React</option>
+        <option value="fa-brands fa-node-js">Node.js</option>
+        <option value="fa-brands fa-laravel">Laravel</option>
+    </optgroup>
+
+    <optgroup label="Database">
+        <option value="fa-solid fa-database">Database</option>
+    </optgroup>
+
+    <optgroup label="Tools">
+        <option value="fa-brands fa-github">GitHub</option>
+        <option value="fa-brands fa-git-alt">Git</option>
+        <option value="fa-brands fa-figma">Figma</option>
+        <option value="fa-solid fa-code">VS Code</option>
+        <option value="fa-solid fa-laptop-code">NetBeans</option>
+    </optgroup>
+
+    <optgroup label="Business">
+        <option value="fa-solid fa-diagram-project">System Analysis</option>
+        <option value="fa-solid fa-industry">ERP</option>
+        <option value="fa-solid fa-sitemap">Business Process</option>
+        <option value="fa-solid fa-chart-line">Business Intelligence</option>
+        <option value="fa-solid fa-chart-pie">Data Analysis</option>
+    </optgroup>
+
+    <optgroup label="Technology">
+        <option value="fa-solid fa-cloud">Cloud Computing</option>
+        <option value="fa-solid fa-network-wired">Networking</option>
+        <option value="fa-solid fa-shield-halved">Cyber Security</option>
+        <option value="fa-solid fa-mobile-screen-button">Mobile Development</option>
+        <option value="fa-solid fa-globe">Web Development</option>
+    </optgroup>
+
+</select>
+</div>
+
+<button type="submit">
+<i class="fa-solid fa-floppy-disk"></i>
+Simpan Skill
+</button>
+
+</form>
+
+</div>
+
+<!-- LIST -->
+<div class="latest">
+
+<h2>Daftar Skill</h2>
+
+<div class="project-grid" id="skillList">
+<!-- DATA DARI API -->
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<script src="js/skill.js"></script>
+
+<script>
+    function logout() {
+        // Hapus semua data sesi
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        
+        // Pindah ke login.html dengan URL absolut agar tidak salah arah
+        window.location.href = window.location.origin + "/login.html";
+    }
+</script>
+
+</body>
+</html>

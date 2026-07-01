@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Portofolio</div>
+
+
+<ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#proyek">Proyek</a></li>
+    <li><a href="../admin/login.html">Admin</a></li>
+</ul>
+
+
+</nav>
+
+<section id="hero">
+
+<h1 id="nama-profil">
+Loading...
+</h1>
+
+<p id="deskripsi-profil">
+Sedang memuat profil...
+</p>
+
+<a href="#proyek" class="btn">
+Lihat Proyek Saya
+</a>
+
+</section>
+
+<section
+id="experience"
+class="experience-section">
+
+<h2 class="section-title">
+Pengalaman
+</h2>
+
+<div
+id="experience-container"
+class="timeline">
+</div>
+
+</section>
+
+<section id="proyek">
+
+<h2>
+Proyek Saya
+</h2>
+
+<div
+id="project-container"
+class="project-grid">
+</div>
+
+</section>
+
+<script>
+
+async function loadProjects(){
+
+try{
+
+const response =
+await fetch(
+"http://127.0.0.1:5000/api/projects"
+);
+
+if(!response.ok)
+return;
+
+const result =
+await response.json();
+
+const container =
+document.getElementById(
+"project-container"
+);
+
+container.innerHTML="";
+
+const projects =
+result.data || [];
+
+projects.forEach(p=>{
+
+container.innerHTML += `
+
+<div class="project-card">
+
+<h3>
+${p.judul}
+</h3>
+
+<p>
+${p.deskripsi}
+</p>
+
+<span>
+<strong>Teknologi:</strong>
+${p.teknologi}
+</span>
+
+</div>
+
+`;
+
+});
+
+}catch(error){
+
+console.log(
+"Gagal memuat project:",
+error
+);
+
+}
+
+}
+
+async function loadExperience(){
+
+    try{
+
+        const response = await fetch("http://127.0.0.1:5000/api/experiences");
+        const result = await response.json();
+
+        const container = document.getElementById("experience-container");
+        container.innerHTML = "";
+
+        (result.data || []).forEach(exp => {
+
+            container.innerHTML += `
+                <div class="timeline-item">
+
+                    <div class="timeline-content">
+
+                        <div class="timeline-text">
+                            <span class="badge">${exp.durasi}</span>
+                            <h3>JABATAN : ${exp.posisi}</h3>
+                            <h4>TEMPAT : ${exp.perusahaan}</h4>
+                            <p>${exp.deskripsi}</p>
+                        </div>
+
+                        ${exp.image_url ? `
+                        <div class="timeline-image">
+                            <img src="${exp.image_url}" alt="${exp.posisi}">
+                        </div>
+                        ` : ""}
+
+                    </div>
+
+                </div>
+            `;
+
+        });
+
+    }catch(err){
+
+        console.log("Gagal memuat experience:", err);
+
+    }
+
+}
+
+async function loadProfile(){
+
+try{
+
+const response =
+await fetch(
+"http://127.0.0.1:5000/api/profil"
+);
+
+if(!response.ok)
+return;
+
+const data =
+await response.json();
+
+document.getElementById(
+"nama-profil"
+).innerText =
+"Halo, Saya " +
+(
+data.nama ||
+"Glory"
+);
+
+document.getElementById(
+"deskripsi-profil"
+).innerText =
+data.deskripsi ||
+"";
+
+}catch(error){
+
+console.log(
+"Gagal memuat profil:",
+error
+);
+
+}
+
+}
+
+
+loadProfile();
+loadProjects();
+loadExperience();
+
+</script>
+
+</body>
+</html>
