@@ -21,23 +21,21 @@ class Database:
                 # Tambahkan logger untuk membantu debugging di Vercel Logs
                 logger.info(f"Mencoba koneksi ke: {Config.DB_HOST}")
                 
-                self._conn = pymysql.connect(
-                    host=Config.DB_HOST,
-                    port=Config.DB_PORT,
-                    user=Config.DB_USER,
-                    password=Config.DB_PASSWORD,
-                    database=Config.DB_NAME,
-
-                    ssl={
-                        "ssl": {}
-                    },
-
-                    connect_timeout=20,
-                    autocommit=True,
-                    cursorclass=pymysql.cursors.DictCursor
-                )
+                # Ubah bagian ini di model.py
+            self._conn = pymysql.connect(
+                host=Config.DB_HOST,
+                port=Config.DB_PORT,
+                user=Config.DB_USER,
+                password=Config.DB_PASSWORD,
+                database=Config.DB_NAME,
+                # SSL untuk TiDB seringkali hanya butuh dictionary kosong atau None
+                ssl={}, 
+                connect_timeout=20,
+                autocommit=True,
+                cursorclass=pymysql.cursors.DictCursor
+            )
                 logger.info("Koneksi database berhasil!")
-            except Exception as e:
+                except Exception as e:
                 # Bagian ini akan mencetak error ke Dashboard Vercel Logs
                 logger.error(f"GAGAL KONEKSI DATABASE: {str(e)}")
                 raise e 
