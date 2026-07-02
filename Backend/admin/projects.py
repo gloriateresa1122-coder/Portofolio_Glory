@@ -6,14 +6,14 @@ projects_bp = Blueprint('projects', __name__)
 
 @projects_bp.route('/projects', methods=['GET'])
 def get_projects():
-    """Mengambil semua projects (publik)"""
+    """Mengambil semua projects"""
     try:
         db = Database()
         
         query = """
             SELECT p.*, u.username 
             FROM projects p 
-            JOIN users u ON p.user_id = u.id 
+            LEFT JOIN users u ON p.user_id = u.id 
             ORDER BY p.id DESC
         """
         result = db.execute_query(query, fetch=True)
