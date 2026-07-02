@@ -16,7 +16,11 @@ class Config:
     @property
     def DB_NAME(self): return os.getenv("DB_NAME")
     
-    # Cloudinary (WAJIB ADA BIAR UPLOAD GAK ERROR)
+    # TAMBAHKAN INI:
+    @property
+    def SECRET_KEY(self): return os.getenv("SECRET_KEY", "default_secret_key_yang_aman")
+    
+    # Cloudinary
     @property
     def CLOUDINARY_CLOUD_NAME(self): return os.getenv("CLOUDINARY_CLOUD_NAME")
     @property
