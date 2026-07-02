@@ -259,38 +259,27 @@ list.innerHTML="";
 
 
 (result.data || []).forEach(exp => {
-
-list.innerHTML += `
-
+    list.innerHTML += `
 <div class="exp-card">
-
-${exp.image_url ? `
-<img src="${exp.image_url}"
-     style="width:100%;max-width:300px;border-radius:10px;margin-bottom:10px;">
-` : ""}
-
-<h3>${exp.posisi}</h3>
-
-<p>${exp.perusahaan}</p>
-
-<p>${exp.durasi}</p>
-
-<p>${exp.deskripsi}</p>
-
-<div style="display:flex;gap:10px;margin-top:10px;">
-
-<button onclick="editExperience(${exp.id})">
-Edit
-</button>
-
-<button onclick="deleteExperience(${exp.id})">
-Hapus
-</button>
-
+    ${exp.image_url ? `
+        <div class="exp-right">
+            <img src="${exp.image_url}" alt="Experience Image">
+        </div>
+    ` : ""}
+    
+    <div class="exp-left">
+        <p class="periode" style="margin-bottom: 10px; display: inline-block;">${exp.durasi}</p>
+        
+        <h3>${exp.posisi}</h3>
+        <p class="company">${exp.perusahaan}</p>
+        <p>${exp.deskripsi}</p>
+        
+        <div class="actions">
+            <button class="edit" onclick="editExperience(${exp.id})">Edit</button>
+            <button class="delete" onclick="deleteExperience(${exp.id})">Hapus</button>
+        </div>
+    </div>
 </div>
-
-</div>
-
 `;
 
 });

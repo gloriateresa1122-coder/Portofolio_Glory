@@ -125,39 +125,26 @@ function renderExperiences(exps) {
     const dataToRender = (Array.isArray(exps) && exps.length > 0) ? exps : dataStatis;
 
     container.innerHTML = dataToRender.map(e => `
-<div class="timeline-item">
-
-    <div class="timeline-dot"></div>
-
-    <div class="timeline-content">
-
-        <div class="exp-left">
-
-            <span class="periode">${e.durasi}</span>
-
-            <h3>JABATAN : ${e.posisi}</h3>
-
-            <h4>TEMPAT : ${e.perusahaan}</h4>
-
-            <p>${e.deskripsi}</p>
-
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+            <div class="exp-left">
+                <span class="periode">${e.durasi}</span>
+                <h3>➤ ${e.posisi}</h3>
+                <h4>➤ ${e.perusahaan}</h4>
+                <p>${e.deskripsi}</p>
+            </div>
+            <div class="exp-right">
+                ${e.image_url ? `
+                    <img src="${e.image_url}" alt="${e.posisi}">
+                ` : `
+                    <img src="images/no-image.png" alt="No Image">
+                `}
+            </div>
         </div>
-
-        <div class="exp-right">
-
-            ${e.image_url ? `
-                <img src="${e.image_url}" alt="${e.posisi}">
-            ` : `
-                <img src="images/no-image.png" alt="No Image">
-            `}
-
-        </div>
-
     </div>
-
-</div>
-`).join('');
-}
+    `).join('');
+    }
 
 function renderProjects(projs) {
     const container = document.getElementById('projects-container');

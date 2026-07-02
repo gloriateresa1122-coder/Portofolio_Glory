@@ -23,8 +23,8 @@ def get_dashboard_stats(current_user):
         result = db.execute_query(query, (current_user,), fetch=True)
         stats['projects_count'] = result[0]['count'] if result else 0
         
-       
-        query = "SELECT COUNT(*) as count FROM experiences"
+        
+        query = "SELECT COUNT(*) as count FROM skills"
         result = db.execute_query(query, fetch=True)
         stats['skills_count'] = result[0]['count'] if result else 0
         

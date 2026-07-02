@@ -120,48 +120,43 @@ ${p.teknologi}
 
         async function loadExperience() {
 
-            try {
+    try {
+        const response = await fetch("/api/experiences");
+        const result = await response.json();
 
-                const response = await fetch("/api/experiences");
-                const result = await response.json();
+        const container = document.getElementById("experience-container");
+        container.innerHTML = "";
 
-                const container = document.getElementById("experience-container");
-                container.innerHTML = "";
+        (result.data || []).forEach(exp => {
 
-                (result.data || []).forEach(exp => {
+            container.innerHTML += `
+            <div class="timeline-item">
 
-                    container.innerHTML += `
-                <div class="timeline-item">
+                <div class="timeline-content">
 
-                    <div class="timeline-content">
-
-                        <div class="timeline-text">
-                            <span class="badge">${exp.durasi}</span>
-                            <h3>JABATAN : ${exp.posisi}</h3>
-                            <h4>TEMPAT : ${exp.perusahaan}</h4>
-                            <p>${exp.deskripsi}</p>
-                        </div>
-
-                        ${exp.image_url ? `
-                        <div class="timeline-image">
-                            <img src="${exp.image_url}" alt="${exp.posisi}">
-                        </div>
-                        ` : ""}
-
+                    <div class="timeline-text">
+                        <span class="badge">${exp.durasi}</span>
+                        <h3>➤&nbsp; ${exp.posisi}</h3>
+                        <h4>➤&nbsp; ${exp.perusahaan}</h4>
+                        <p>${exp.deskripsi}</p>
                     </div>
 
+                    ${exp.image_url ? `
+                    <div class="timeline-image">
+                        <img src="${exp.image_url}" alt="${exp.posisi}">
+                    </div>
+                    ` : ""}
+
                 </div>
+
+            </div>
             `;
+        });
 
-                });
-
-            } catch (err) {
-
-                console.log("Gagal memuat experience:", err);
-
-            }
-
-        }
+    } catch (err) {
+        console.log("Gagal memuat experience:", err);
+    }
+}
 
         async function loadProfile() {
 
