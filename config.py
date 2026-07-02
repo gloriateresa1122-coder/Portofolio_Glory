@@ -1,30 +1,29 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
+# Memuat file .env hanya jika ada (untuk lokal)
+if os.path.exists('.env'):
+    load_dotenv()
 
 class Config:
-    DB_HOST = os.getenv("DB_HOST")
-    DB_PORT = int(os.getenv("DB_PORT", 4000))
-    DB_USER = os.getenv("DB_USER")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
-    DB_NAME = os.getenv("DB_NAME")
+    # Menggunakan os.environ.get agar lebih aman
+    DB_HOST = os.environ.get("DB_HOST")
+    DB_PORT = int(os.environ.get("DB_PORT", 4000))
+    DB_USER = os.environ.get("DB_USER")
+    DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    DB_NAME = os.environ.get("DB_NAME")
 
+    # Pastikan dictionary ini mengambil nilai yang benar
     MYSQL_CONFIG = {
         "host": DB_HOST,
         "port": DB_PORT,
         "user": DB_USER,
         "password": DB_PASSWORD,
         "database": DB_NAME,
-        "ssl": {"ssl": {}}
+        "ssl": {} 
     }
 
-    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
-    DEBUG = os.getenv("FLASK_DEBUG", "True").lower() == "true"
+    SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+    DEBUG = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
 
-    CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
-    CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
-    CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
-
-    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+    # ... (sisanya sama)
