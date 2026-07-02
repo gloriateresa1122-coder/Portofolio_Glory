@@ -18,27 +18,28 @@ class Database:
     def get_connection(self):
         if self._conn is None or not self._conn.open:
             try:
-                # Tambahkan logger untuk membantu debugging di Vercel Logs
+                # Logger di dalam try
                 logger.info(f"Mencoba koneksi ke: {Config.DB_HOST}")
                 
-                # Ubah bagian ini di model.py
-            self._conn = pymysql.connect(
-                host=Config.DB_HOST,
-                port=Config.DB_PORT,
-                user=Config.DB_USER,
-                password=Config.DB_PASSWORD,
-                database=Config.DB_NAME,
-                # SSL untuk TiDB seringkali hanya butuh dictionary kosong atau None
-                ssl={}, 
-                connect_timeout=20,
-                autocommit=True,
-                cursorclass=pymysql.cursors.DictCursor
-            )
+                # Pastikan self._conn di dalam try
+                self._conn = pymysql.connect(
+                    host=Config.DB_HOST,
+                    port=Config.DB_PORT,
+                    user=Config.DB_USER,
+                    password=Config.DB_PASSWORD,
+                    database=Config.DB_NAME,
+                    ssl={}, 
+                    connect_timeout=20,
+                    autocommit=True,
+                    cursorclass=pymysql.cursors.DictCursor
+                )
                 logger.info("Koneksi database berhasil!")
-                except Exception as e:
-                # Bagian ini akan mencetak error ke Dashboard Vercel Logs
+
+            except Exception as e:
+                # Pastikan except sejajar dengan try
                 logger.error(f"GAGAL KONEKSI DATABASE: {str(e)}")
                 raise e 
+        
         return self._conn
 
     def execute_query(self, query, params=None, fetch=False):
