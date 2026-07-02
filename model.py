@@ -28,7 +28,8 @@ class Database:
                     user=Config.DB_USER,
                     password=Config.DB_PASSWORD,
                     database=Config.DB_NAME,
-                    ssl={}, 
+                    # Gunakan konfigurasi ini untuk TiDB Cloud
+                    ssl={'ssl_mode': 'REQUIRED'}, 
                     connect_timeout=20,
                     autocommit=True,
                     cursorclass=pymysql.cursors.DictCursor
