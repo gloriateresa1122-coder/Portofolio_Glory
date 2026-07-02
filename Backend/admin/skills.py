@@ -45,38 +45,23 @@ def get_skill_by_id(id):
 @skills_bp.route('/skills', methods=['POST'])
 @token_required
 def create_skill(current_user):
-    """Create skill baru"""
     try:
         data = request.get_json()
         
-        required_fields = ['nama_skill']
-        for field in required_fields:
-            if not data.get(field):
-                return jsonify({'error': f'{field} wajib diisi'}), 400
+        if not data.get('nama_skill'):
+            return jsonify({'error': 'nama_skill wajib diisi'}), 400
         
         db = Database()
-        
-        query = """
-            INSERT INTO skills (user_id, nama_skill, icon_class)
-            VALUES (%s, %s, %s)
-        """
-        values = (
-            current_user['id'],
-            data.get('nama_skill'),
-            data.get('icon_class')
-        )
+        # HAPUS user_id DARI QUERY
+        query = "INSERT INTO skills (nama_skill, icon_class) VALUES (%s, %s)"
+        values = (data.get('nama_skill'), data.get('icon_class'))
         
         new_id = db.execute_query(query, values)
         
-        return jsonify({
-            'success': True,
-            'message': 'Skill berhasil dibuat',
-            'id': new_id
-        }), 201
-        
+        return jsonify({'success': True, 'message': 'Skill berhasil dibuat', 'id': new_id}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+    
 @skills_bp.route('/skills/<int:id>', methods=['PUT'])
 @token_required
 def update_skill(current_user, id):
@@ -86,12 +71,8 @@ def update_skill(current_user, id):
         
         db = Database()
         
-        check_query = "SELECT id FROM skills WHERE id = %s AND user_id = %s"
-        existing = db.execute_query(
-            check_query,
-            (id, current_user['id']),
-            fetch=True
-        )
+        check_query = "SELECT id FROM skills WHERE id = %s"
+        existing = db.execute_query(check_query, (id,), fetch=True)
         
         if not existing:
             return jsonify({'error': 'Skill tidak ditemukan atau bukan milik Anda'}), 404
@@ -127,15 +108,12 @@ def delete_skill(current_user, id):
     try:
         db = Database()
         
-        check_query = "SELECT id FROM skills WHERE id = %s AND user_id = %s"
-        existing = db.execute_query(
-            check_query,
-            (id, current_user['id']),
-            fetch=True
-        )
+        # Hapus pengecekan user_id karena kolom tidak ada
+        check_query = "SELECT id FROM skills WHERE id = %s"
+        existing = db.execute_query(check_query, (id,), fetch=True)
         
         if not existing:
-            return jsonify({'error': 'Skill tidak ditemukan atau bukan milik Anda'}), 404
+            return jsonify({'error': 'Skill tidak ditemukan'}), 404
         
         query = "DELETE FROM skills WHERE id = %s"
         db.execute_query(query, (id,))

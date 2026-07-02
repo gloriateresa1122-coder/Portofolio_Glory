@@ -1,187 +1,96 @@
-alert("skill.js terbaca");
+console.log("skills.js berhasil dimuat");
 
 async function loadSkill() {
-
     console.log("loadSkill dijalankan");
-
     try {
-
         const response = await fetch("/api/skills");
-
-        console.log("Status:", response.status);
-
         const result = await response.json();
-
-        console.log("Result:", result);
-
+        
         const container = document.getElementById("skillList");
-
-        console.log("Container:", container);
-
+        if (!container) return;
+        
         container.innerHTML = "";
-
         const skills = result.data || [];
-
-        console.log("Jumlah skill:", skills.length);
-
+        
         skills.forEach(skill => {
-
-            console.log("Skill:", skill);
-
             container.innerHTML += `
                 <div class="project-card">
                     <div class="project-image">
                         <i class="${skill.icon_class || 'fa-solid fa-star'}"></i>
                     </div>
-
                     <h3>${skill.nama_skill}</h3>
-
                     <div class="actions">
-                        <button onclick="deleteSkill(${skill.id})">
-                            Hapus
-                        </button>
+                        <button onclick="editSkill(${skill.id}, '${skill.nama_skill}', '${skill.icon_class}')">Edit</button>
+                        <button onclick="deleteSkill(${skill.id})">Hapus</button>
                     </div>
                 </div>
             `;
         });
-
-        console.log("Selesai render");
-
     } catch(err) {
-
-        console.error(err);
-
+        console.error("Error loadSkill:", err);
     }
-
-}
-```
-
 }
 
-async function addSkill(e){
-
-e.preventDefault();
-
-const nama_skill =
-document.getElementById(
-"skillName"
-).value;
-
-const icon_class =
-document.getElementById(
-"skillIcon"
-).value;
-
-const token =
-localStorage.getItem(
-"token"
-);
-
-try{
-
-const response =
-await fetch(
-    "/api/skills",
-{
-method:"POST",
-
-
-headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}` 
-},
-
-body:
-JSON.stringify({
-
-nama_skill,
-icon_class
-
-})
-
+// Fungsi untuk menyiapkan form saat tombol Edit diklik
+function editSkill(id, nama, icon) {
+    document.getElementById("skillName").value = nama;
+    document.getElementById("skillIcon").value = icon;
+    
+    const btnSimpan = document.querySelector("#skillForm button");
+    btnSimpan.innerText = "Update Skill";
+    btnSimpan.dataset.editId = id; // Menyimpan ID ke form agar tahu ini proses Edit
+    
+    document.getElementById("skillForm").scrollIntoView({ behavior: 'smooth' });
 }
 
-);
+async function addSkill(e) {
+    e.preventDefault();
+    const btn = document.querySelector("#skillForm button");
+    const editId = btn.dataset.editId; // Cek apakah ada ID edit
+    
+    const nama_skill = document.getElementById("skillName").value;
+    const icon_class = document.getElementById("skillIcon").value;
+    const token = localStorage.getItem("token");
 
-const result =
-await response.json();
+    // Jika ada editId, gunakan method PUT, jika tidak gunakan POST
+    const method = editId ? "PUT" : "POST";
+    const url = editId ? `/api/skills/${editId}` : "/api/skills";
 
-if(response.ok){
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` 
+            },
+            body: JSON.stringify({ nama_skill, icon_class })
+        });
 
-alert(
-"Skill berhasil ditambah"
-);
+        if (response.ok) {
+            alert(editId ? "Skill berhasil diupdate" : "Skill berhasil ditambah");
+            document.getElementById("skillForm").reset();
+            btn.innerText = "Simpan Skill"; // Kembalikan teks tombol
+            delete btn.dataset.editId; // Hapus ID edit
+            loadSkill();
+        } else {
+            const result = await response.json();
+            alert(result.error || "Gagal memproses skill");
+        }
+    } catch(err) {
+        console.error(err);
+    }
+}
 
-document
-.getElementById(
-"skillForm"
-)
-.reset();
+async function deleteSkill(id) {
+    const token = localStorage.getItem("token");
+    if (!confirm("Hapus skill?")) return;
 
+    await fetch(`/api/skills/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+    loadSkill();
+}
+
+document.getElementById("skillForm").addEventListener("submit", addSkill);
 loadSkill();
-
-}else{
-
-alert(
-result.error
-);
-
-}
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-async function deleteSkill(id){
-
-const token =
-localStorage.getItem(
-"token"
-);
-
-if(
-!confirm(
-"Hapus skill?"
-)
-)return;
-
-await fetch(
-
-`${API_URL}/api/skills/${id}`
-
-{
-
-method:
-"DELETE",
-
-headers:{
-
-Authorization:
-`Bearer ${token}`
-
-}
-
-}
-
-);
-
-loadSkill();
-
-}
-
-document
-.getElementById(
-"skillForm"
-)
-.addEventListener(
-"submit",
-addSkill
-);
-
-loadSkill();
-
-console.log("skills.js berhasil dimuat");
