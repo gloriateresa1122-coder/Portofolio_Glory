@@ -39,7 +39,7 @@ color:#888;
 
 <div class="container">
 
-<!-- SIDEBAR -->
+    
 <div class="sidebar">
 
 <h2>Admin Panel</h2>
@@ -76,7 +76,7 @@ Logout
 
 </div>
 
-<!-- CONTENT -->
+
 <div class="content">
 
 <div class="topbar">
@@ -89,7 +89,7 @@ Halo, <b id="username">Admin</b>
 
 </div>
 
-<!-- INFO -->
+
 <div class="latest">
 
 <h2>Informasi Akun</h2>
@@ -145,7 +145,6 @@ Halo, <b id="username">Admin</b>
 </div>
 
 
-<!-- PASSWORD -->
 <div class="latest">
 
 <h2>Ganti Password</h2>
@@ -232,13 +231,13 @@ Update Password
 
 <script>
 
-// ==================== HAPUS FOTO ====================
+
 async function hapusFoto() {
-    // 1. Konfirmasi hapus
+   
     if (!confirm("Apakah kamu yakin ingin menghapus foto ini?")) return;
 
     try {
-        // 2. Kirim request DELETE ke backend
+       
         const response = await fetch(`${API}/profiles`, {
             method: "DELETE",
             headers: {
@@ -248,11 +247,11 @@ async function hapusFoto() {
         
         const result = await response.json();
         
-        // 3. Update tampilan setelah sukses
+
         if (result.success) {
             alert("Foto berhasil dihapus!");
-            document.getElementById("previewFoto").src = ""; // Menghilangkan gambar di layar
-            document.getElementById("foto_url").value = "";  // Mengosongkan data di input hidden
+            document.getElementById("previewFoto").src = ""; 
+            document.getElementById("foto_url").value = "";  
         } else {
             alert("Gagal menghapus: " + result.message);
         }
@@ -262,7 +261,7 @@ async function hapusFoto() {
     }
 }
 
-// tampilkan username
+
 const username =
 localStorage.getItem("username")
 || "Admin";
@@ -273,10 +272,10 @@ username;
 document.getElementById("showUsername").innerText =
 username;
 
-const API = "http://127.0.0.1:5000/api";
+const API = "/api";
 
 
-// tombol mata
+
 function togglePassword(id,icon){
 
 const input =
@@ -377,7 +376,7 @@ document.getElementById("passwordForm").addEventListener("submit", async functio
     try{
 
         const response = await fetch(
-            "http://127.0.0.1:5000/api/account/change-password",
+            "/api/account/change-password",
             {
 
                 method:"PUT",
@@ -416,7 +415,7 @@ document.getElementById("passwordForm").addEventListener("submit", async functio
 });
 
 
-// logout
+
 function logout(){
 
 localStorage.removeItem("token");
@@ -427,7 +426,7 @@ window.location.href=
 }
 
 
-// proteksi login
+
 if(
 !localStorage.getItem("token")
 ){
@@ -437,7 +436,7 @@ window.location.href=
 
 }
 
-// ==================== LOAD FOTO ====================
+
 async function loadProfile(){
     try{
         const response = await fetch(`${API}/profiles`,{
@@ -451,11 +450,11 @@ async function loadProfile(){
     }catch(err){ console.log(err); }
 }
 
-// ==================== SIMPAN FOTO ====================
+
 document.getElementById("profileForm").addEventListener("submit", async function(e){
     e.preventDefault();
     
-    // Hanya kirim foto_url
+   
     const data = { foto_url: document.getElementById("foto_url").value };
 
     try{

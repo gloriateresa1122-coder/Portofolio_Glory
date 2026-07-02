@@ -6,7 +6,7 @@ async function loadSkill() {
 
     try {
 
-        const response = await fetch("http://127.0.0.1:5000/api/skills");
+        const response = await fetch("/api/skills");
 
         console.log("Status:", response.status);
 
@@ -81,7 +81,7 @@ try{
 
 const response =
 await fetch(
-"http://127.0.0.1:5000/api/skills",
+    "/api/skills",
 {
 method:"POST",
 
@@ -151,7 +151,7 @@ if(
 
 await fetch(
 
-`http://127.0.0.1:5000/api/skills/${id}`,
+`${API_URL}/api/skills/${id}`
 
 {
 

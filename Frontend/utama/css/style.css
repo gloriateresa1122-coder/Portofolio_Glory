@@ -1,6 +1,3 @@
-/* =========================================
-   1. RESET & VARIABEL GLOBAL
-   ========================================= */
 :root {
   --primary: #eb2585;
   --secondary: #820b8d;
@@ -23,7 +20,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Agar scroll tidak tertutup navbar */
+  scroll-padding-top: 80px; 
 }
 
 body {
@@ -34,9 +31,6 @@ body {
   overflow-x: hidden;
 }
 
-/* =========================================
-   2. NAVBAR
-   ========================================= */
 nav {
   position: fixed;
   top: 0;
@@ -71,8 +65,6 @@ nav ul {
   gap: 2rem;
 }
 
-/* ===== NAVBAR ACTIVE PINK LINE ===== */
-
 nav ul li a{
 
 text-decoration:none;
@@ -92,8 +84,6 @@ transition:.3s;
 }
 
 
-/* hover */
-
 nav ul li a:hover{
 
 color:#ff1493 !important;
@@ -101,7 +91,6 @@ color:#ff1493 !important;
 }
 
 
-/* garis pink */
 
 nav ul li a::after{
 
@@ -128,8 +117,6 @@ transition:.3s;
 }
 
 
-/* aktif */
-
 nav ul li a:hover::after,
 
 nav ul li a.active::after{
@@ -154,9 +141,7 @@ color:#ff1493 !important;
   cursor: pointer;
 }
 
-/* =========================================
-   3. HERO SECTION - ESTETIK DARK PINK
-   ========================================= */
+
 .hero {
     min-height: 100vh;
     display: flex;
@@ -164,18 +149,17 @@ color:#ff1493 !important;
     justify-content: center;
     text-align: center;
     padding: 0 1.5rem;
-    /* Memberikan efek gradasi glow di belakang */
     background: radial-gradient(circle at 50% 50%, #2a0f1f 0%, #0f0f12 100%) !important;
     padding-top: 80px;
 }
 
 .hero-content h4 {
-    color: #ff7abf; /* Pink lebih lembut */
+    color: #ff7abf; 
     font-weight: 600;
     margin-bottom: 1rem;
     font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 3px; /* Jarak huruf lebih estetik */
+    letter-spacing: 3px; 
 }
 
 .hero-content h1 {
@@ -183,17 +167,17 @@ color:#ff1493 !important;
     margin-bottom: 1.5rem;
     line-height: 1.1;
     color: #ffffff;
-    text-shadow: 0 0 20px rgba(235, 37, 133, 0.3); /* Efek glow tipis */
+    text-shadow: 0 0 20px rgba(235, 37, 133, 0.3); 
 }
 
 .hero-content p {
     max-width: 600px;
     margin: 0 auto 2.5rem;
-    color: #cbd5e1; /* Warna abu-abu terang agar mudah dibaca */
+    color: #cbd5e1; 
     font-size: 1.2rem;
 }
 
-/* Tombol estetik dengan efek gradient */
+
 .btn {
     display: inline-block;
     padding: 1rem 2.5rem;
@@ -215,9 +199,7 @@ color:#ff1493 !important;
     filter: brightness(1.1);
 }
 
-/* =========================================
-   4. SECTIONS UMUM
-   ========================================= */
+
 section {
   padding: 5rem 10%;
 }
@@ -243,9 +225,7 @@ section {
   border-radius: 4px;
 }
 
-/* =========================================
-   5. ABOUT SECTION (FIXED FOR SQUARE PHOTO)
-   ========================================= */
+
 .about-content {
   display: flex;
   gap: 3rem;
@@ -255,17 +235,16 @@ section {
 
 .about-img {
   flex: 1;
-  min-width: 350px; /* Disesuaikan agar kotak terlihat lega */
+  min-width: 350px; 
   text-align: center;
 }
 
-/* Mengatur wadah agar bisa menampung kotak besar */
 #profile-photo {
-  width: 350px !important;       /* Ukuran lebar kotak besar */
-  height: 350px !important;      /* Ukuran tinggi kotak besar */
-  object-fit: cover;             /* Gambar tetap proporsional */
-  border-radius: 12px !important; /* Membuat sudut kotak tumpul estetik */
-  box-shadow: 0 0 25px rgba(235, 37, 133, 0.4); /* Efek cahaya pink */
+  width: 350px !important;      
+  height: 350px !important;     
+  object-fit: cover;           
+  border-radius: 12px !important; 
+  box-shadow: 0 0 25px rgba(235, 37, 133, 0.4); 
   display: block !important;
   margin: 0 auto;
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -276,9 +255,7 @@ section {
   min-width: 300px;
 }
 
-/* =========================================
-   6. SKILLS SECTION
-   ========================================= */
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -313,9 +290,7 @@ section {
   color: var(--text-dark);
 }
 
-/* =========================================
-   7. TIMELINE (EXPERIENCE)
-   ========================================= */
+
 .timeline {
   position: relative;
   max-width: 800px;
@@ -398,9 +373,7 @@ section {
   line-height: 1.6;
 }
 
-/* =========================================
-   8. PROJECTS SECTION (FIXED OVERLAY)
-   ========================================= */
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -477,7 +450,7 @@ section {
   margin-bottom: 1.25rem;
   line-height: 1.6;
   
-  /* Memotong teks jika terlalu panjang (Clamp) */
+
   display: -webkit-box;
   line-clamp: 3;
   -webkit-line-clamp: 3;
@@ -518,9 +491,7 @@ section {
   gap: 0.7rem;
 }
 
-/* =========================================
-   9. CONTACT SECTION
-   ========================================= */
+
 .contact-container {
   max-width: 600px;
   margin: 0 auto;
@@ -563,9 +534,7 @@ section {
   font-size: 1.05rem;
 }
 
-/* =========================================
-   10. FOOTER
-   ========================================= */
+
 footer {
   background: var(--text-dark);
   color: white;
@@ -599,11 +568,7 @@ footer p {
   opacity: 0.7;
 }
 
-/* =========================================
-   11. RESPONSIVE DESIGN
-   ========================================= */
 
-/* Tablet & Small Laptop */
 @media (max-width: 1024px) {
   section {
     padding: 4rem 8%;
@@ -649,7 +614,7 @@ footer p {
     z-index: 1001;
   }
   
-  /* Layout Adjustments */
+
   section {
     padding: 3rem 5%;
   }
@@ -672,7 +637,7 @@ footer p {
     margin-bottom: 2rem;
   }
   
-  /* About Section Mobile */
+
   .about-content {
     flex-direction: column;
     text-align: center;
@@ -684,7 +649,7 @@ footer p {
     height: 200px;
   }
   
-  /* Skills Mobile */
+
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -694,7 +659,7 @@ footer p {
     padding: 1.5rem 1rem;
   }
   
-  /* Timeline Mobile */
+
   .timeline {
     padding-left: 1.5rem;
   }
@@ -709,7 +674,7 @@ footer p {
     padding-left: 1.5rem;
   }
   
-  /* Projects Mobile */
+
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -724,7 +689,7 @@ footer p {
   }
 }
 
-/* Very Small Mobile */
+
 @media (max-width: 480px) {
   .hero-content h1 {
     font-size: 1.75rem;
@@ -761,10 +726,6 @@ footer p {
 }
 
 
-/* =========================================
-   FIX: DARK PINK AESTHETIC BACKGROUND
-   ========================================= */
-
 body {
   background: linear-gradient(
     135deg,
@@ -775,34 +736,35 @@ body {
 
   color: white;
 }
-/* Hero ikut gelap juga */
+
+
 .hero {
   background: transparent !important;
 }
 
-/* Biar section putih hilang semua */
+
 .bg-white {
   background: transparent !important;
 }
 
-/* Card & section biar nyatu sama aesthetic */
+
 section {
   background: transparent;
 }
 
-/* teks biar tetap kebaca */
+
 p, h1, h2, h3, h4, h5 {
   color: #f8fafc;
 }
 
-/* navbar biar ikut dark aesthetic */
+
 nav {
   background: rgba(10, 10, 12, 0.6) !important;
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 77, 166, 0.2);
 }
 
-/* skill card biar nyatu tema */
+
 .skill-card,
 .timeline-content,
 .project-card {
@@ -870,9 +832,6 @@ section li,
     color:#bbb;
 }
 
-/* =========================================
-   TECHNOLOGY TAGS
-   ========================================= */
 
 .tech-list{
     display:flex;

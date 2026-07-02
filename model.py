@@ -23,13 +23,17 @@ class Database:
                 
                 self._conn = pymysql.connect(
                     host=Config.DB_HOST,
+                    port=Config.DB_PORT,
                     user=Config.DB_USER,
                     password=Config.DB_PASSWORD,
                     database=Config.DB_NAME,
-                    port=int(Config.DB_PORT),
-                    ssl={"ca": None},
-                    connect_timeout=10,
-                    autocommit=True, # Mengubah ke True agar koneksi lebih stabil
+
+                    ssl={
+                        "ssl": {}
+                    },
+
+                    connect_timeout=20,
+                    autocommit=True,
                     cursorclass=pymysql.cursors.DictCursor
                 )
                 logger.info("Koneksi database berhasil!")

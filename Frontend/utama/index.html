@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,94 +10,81 @@
 
 <body>
 
-<nav>
-    <div class="logo">Portofolio</div>
+    <nav>
+        <div class="logo">Portofolio</div>
 
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#proyek">Proyek</a></li>
+            <li><a href="../admin/login.html">Admin</a></li>
+        </ul>
+    </nav>
 
-<ul>
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#proyek">Proyek</a></li>
-    <li><a href="../admin/login.html">Admin</a></li>
-</ul>
+    <section id="hero">
 
+        <h1 id="nama-profil">
+            Loading...
+        </h1>
 
-</nav>
+        <p id="deskripsi-profil">
+            Sedang memuat profil...
+        </p>
 
-<section id="hero">
+        <a href="#proyek" class="btn">
+            Lihat Proyek Saya
+        </a>
 
-<h1 id="nama-profil">
-Loading...
-</h1>
+    </section>
 
-<p id="deskripsi-profil">
-Sedang memuat profil...
-</p>
+    <section id="experience" class="experience-section">
 
-<a href="#proyek" class="btn">
-Lihat Proyek Saya
-</a>
+        <h2 class="section-title">
+            Pengalaman
+        </h2>
 
-</section>
+        <div id="experience-container" class="timeline"></div>
 
-<section
-id="experience"
-class="experience-section">
+    </section>
 
-<h2 class="section-title">
-Pengalaman
-</h2>
+    <section id="proyek">
 
-<div
-id="experience-container"
-class="timeline">
-</div>
+        <h2>
+            Proyek Saya
+        </h2>
 
-</section>
+        <div id="project-container" class="project-grid"></div>
 
-<section id="proyek">
+    </section>
 
-<h2>
-Proyek Saya
-</h2>
+    <script>
 
-<div
-id="project-container"
-class="project-grid">
-</div>
+        async function loadProjects() {
 
-</section>
+            try {
 
-<script>
+                const response =
+                    await fetch("/api/projects");
 
-async function loadProjects(){
+                if (!response.ok)
+                    return;
 
-try{
+                const result =
+                    await response.json();
 
-const response =
-await fetch(
-"http://127.0.0.1:5000/api/projects"
-);
+                const container =
+                    document.getElementById(
+                        "project-container"
+                    );
 
-if(!response.ok)
-return;
+                container.innerHTML = "";
 
-const result =
-await response.json();
+                const projects =
+                    result.data || [];
 
-const container =
-document.getElementById(
-"project-container"
-);
+                projects.forEach(p => {
 
-container.innerHTML="";
-
-const projects =
-result.data || [];
-
-projects.forEach(p=>{
-
-container.innerHTML += `
+                    container.innerHTML += `
 
 <div class="project-card">
 
@@ -118,32 +105,32 @@ ${p.teknologi}
 
 `;
 
-});
+                });
 
-}catch(error){
+            } catch (error) {
 
-console.log(
-"Gagal memuat project:",
-error
-);
+                console.log(
+                    "Gagal memuat project:",
+                    error
+                );
 
-}
+            }
 
-}
+        }
 
-async function loadExperience(){
+        async function loadExperience() {
 
-    try{
+            try {
 
-        const response = await fetch("http://127.0.0.1:5000/api/experiences");
-        const result = await response.json();
+                const response = await fetch("/api/experiences");
+                const result = await response.json();
 
-        const container = document.getElementById("experience-container");
-        container.innerHTML = "";
+                const container = document.getElementById("experience-container");
+                container.innerHTML = "";
 
-        (result.data || []).forEach(exp => {
+                (result.data || []).forEach(exp => {
 
-            container.innerHTML += `
+                    container.innerHTML += `
                 <div class="timeline-item">
 
                     <div class="timeline-content">
@@ -166,63 +153,61 @@ async function loadExperience(){
                 </div>
             `;
 
-        });
+                });
 
-    }catch(err){
+            } catch (err) {
 
-        console.log("Gagal memuat experience:", err);
+                console.log("Gagal memuat experience:", err);
 
-    }
+            }
 
-}
+        }
 
-async function loadProfile(){
+        async function loadProfile() {
 
-try{
+            try {
 
-const response =
-await fetch(
-"http://127.0.0.1:5000/api/profil"
-);
+                const response =
+                    await fetch("/api/profil");
 
-if(!response.ok)
-return;
+                if (!response.ok)
+                    return;
 
-const data =
-await response.json();
+                const data =
+                    await response.json();
 
-document.getElementById(
-"nama-profil"
-).innerText =
-"Halo, Saya " +
-(
-data.nama ||
-"Glory"
-);
+                document.getElementById(
+                    "nama-profil"
+                ).innerText =
+                    "Halo, Saya " +
+                    (
+                        data.nama ||
+                        "Glory"
+                    );
 
-document.getElementById(
-"deskripsi-profil"
-).innerText =
-data.deskripsi ||
-"";
+                document.getElementById(
+                    "deskripsi-profil"
+                ).innerText =
+                    data.deskripsi ||
+                    "";
 
-}catch(error){
+            } catch (error) {
 
-console.log(
-"Gagal memuat profil:",
-error
-);
+                console.log(
+                    "Gagal memuat profil:",
+                    error
+                );
 
-}
+            }
 
-}
+        }
 
+        loadProfile();
+        loadProjects();
+        loadExperience();
 
-loadProfile();
-loadProjects();
-loadExperience();
-
-</script>
+    </script>
 
 </body>
+
 </html>

@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // Load Data Utama
     await loadPublicData();
-
-    // Handle Form Kontak
     setupContactForm();
 
-    // Hamburger Menu
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
-    if(hamburger) {
+
+    if (hamburger) {
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
         });
@@ -19,13 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadPublicData() {
     try {
-        // PERUBAHAN: Menambahkan URL lengkap agar mengarah ke Flask
-        const response = await fetch('http://127.0.0.1:5000/api/main-profile');
-        
+        const response = await fetch('/api/main-profile');
+
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
-        
+
         const res = await response.json();
-        
+
         if (!res.success || !res.data) {
             showError('Data profil belum tersedia.');
             return;
@@ -54,6 +50,7 @@ async function loadPublicData() {
 
 function showError(msg) {
     const heroContent = document.getElementById('hero-content');
+
     if (heroContent) {
         heroContent.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-circle"></i> ${msg}</div>`;
     }
@@ -74,7 +71,7 @@ function renderHero(p) {
 function renderAbout(p) {
     const img = document.getElementById('profile-photo');
     const placeholder = document.getElementById('photo-placeholder');
-    
+
     if (img && placeholder) {
         if (p.foto_url) {
             img.src = p.foto_url;
@@ -87,6 +84,7 @@ function renderAbout(p) {
     }
 
     const aboutText = document.getElementById('about-text');
+
     if (aboutText) {
         aboutText.innerHTML = `
             <h3>Sistem Informasi</h3>
@@ -100,13 +98,11 @@ function renderSkills(skills) {
     const container = document.getElementById('skills-container');
     if (!container) return;
 
-    // Jika data dari database kosong, tampilkan pesan atau biarkan kosong
     if (!skills || skills.length === 0) {
         container.innerHTML = '<p>Belum ada keahlian yang ditambahkan.</p>';
         return;
     }
 
-    // Gunakan data dari API (parameter 'skills')
     container.innerHTML = skills.map(s => `
         <div class="skill-card">
             <i class="${s.icon_class || 'fas fa-star'}"></i>
@@ -119,7 +115,6 @@ function renderExperiences(exps) {
     const container = document.getElementById('experience-container');
     if (!container) return;
 
-    // Data cadangan jika database kosong atau API gagal
     const dataStatis = [
         { durasi: "2024 - Sekarang", posisi: "Tim Promosi Universitas Kristen Satya Wacana", perusahaan: "UKSW", deskripsi: "Mengelola branding, menyusun strategi pemasaran, mempromosi UKSW ke berbagai kalangan, serta melakukan kampanye penerimaan mahasiswa baru." },
         { durasi: "2025 - Sekarang", posisi: "Tim Multimedia Gereja", perusahaan: "GPIB Salatiga", deskripsi: "Mendukung kelancaran ibadah dan pelayanan melalui media audio-visual." },
@@ -127,7 +122,6 @@ function renderExperiences(exps) {
         { durasi: "2026", posisi: "Koordinator Acara Oracle Insight 2026", perusahaan: "FTI UKSW", deskripsi: "Menjadi koordinator acara dalam event Oracle Insight 2026 HMPSI FTI UKSW." }
     ];
 
-    // Gunakan data API jika ada, jika tidak pakai dataStatis
     const dataToRender = (Array.isArray(exps) && exps.length > 0) ? exps : dataStatis;
 
     container.innerHTML = dataToRender.map(e => `
@@ -163,7 +157,6 @@ function renderExperiences(exps) {
 
 </div>
 `).join('');
-
 }
 
 function renderProjects(projs) {
@@ -186,6 +179,7 @@ function renderProjects(projs) {
             <div class="project-card">
 
                 <div class="project-info">
+
                     <h3>${p.judul}</h3>
 
                     <p>${p.deskripsi}</p>
@@ -204,6 +198,7 @@ function renderProjects(projs) {
 
 function renderContact(p) {
     const emailDisplay = document.getElementById('contact-email-display');
+
     if (emailDisplay && p.email) {
         emailDisplay.innerHTML = `Tertarik berkolaborasi? Langsung kirim pesan ke bawah sini!`;
     }
@@ -213,45 +208,59 @@ function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
 
-    contactForm.addEventListener('submit', async function(e) {
+    contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const btn = document.getElementById('sendBtn');
         const originalText = btn.textContent;
-        
+
         btn.disabled = true;
         btn.textContent = 'Mengirim...';
-        
+
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/contact', {
+
+            const response = await fetch('/api/contact', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     name: document.getElementById('contactName').value,
                     email: document.getElementById('contactEmail').value,
                     message: document.getElementById('contactMessage').value
                 })
             });
-            
+
             const result = await response.json();
-            
+
             if (response.ok) {
                 alert('✅ ' + result.message);
                 contactForm.reset();
             } else {
                 alert('❌ ' + (result.error || 'Gagal mengirim'));
             }
+
         } catch (error) {
             alert('❌ Terjadi kesalahan jaringan.');
         } finally {
             btn.disabled = false;
             btn.textContent = originalText;
         }
+
     });
+
 }
 
 function escapeHtml(text) {
     if (text === null || text === undefined) return '';
-    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
     return String(text).replace(/[&<>"']/g, m => map[m]);
 }

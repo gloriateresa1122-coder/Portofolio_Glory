@@ -6,7 +6,6 @@ font-family:Arial,sans-serif;
 }
 
 
-/* ================= LOGIN ================= */
 
 body{
 
@@ -22,9 +21,6 @@ linear-gradient(
 
 }
 
-
-
-/* aktif hanya untuk login */
 
 body:has(.login-container){
 
@@ -149,8 +145,6 @@ text-align:center;
 
 
 
-/* ================= DASHBOARD ================= */
-
 body:has(.container){
 
 display:block;
@@ -168,8 +162,6 @@ min-height:100vh;
 }
 
 
-
-/* SIDEBAR */
 
 .sidebar{
 
@@ -229,7 +221,6 @@ transition:.2s;
 
 }
 
-/* WARNA ICON SIDEBAR */
 
 .sidebar a i{
 
@@ -258,7 +249,6 @@ width:100%;
 
 
 
-/* CONTENT */
 
 .content{
 
@@ -290,7 +280,6 @@ align-items:center;
 
 margin-bottom:30px;
 
-/* TAMBAH */
 color:white;
 
 }
@@ -301,14 +290,12 @@ color:white;
 
 font-size:48px;
 
-/* TAMBAH */
+
 color:white;
 
 }
 
 
-
-/* CARD */
 
 .cards{
 
@@ -375,9 +362,6 @@ margin-bottom:10px;
 }
 
 
-
-/* QUICK */
-
 .quick{
 
 margin-top:30px;
@@ -416,9 +400,6 @@ border-radius:40px;
 
 }
 
-
-
-/* LATEST */
 
 .latest{
 
@@ -486,7 +467,6 @@ margin-bottom:10px;
 
 
 
-/* RESPONSIVE */
 
 @media(max-width:900px){
 
@@ -516,7 +496,7 @@ grid-template-columns:1fr;
 
 }
 
-/* ===== PROFIL ===== */
+
 
 .photo-box{
 
@@ -621,7 +601,6 @@ color:white;
 
 }
 
-/* ===== EXPERIENCE ===== */
 
 .experience-list{
 
@@ -767,7 +746,7 @@ padding:12px 20px;
 
 }
 
-/* ===== PROJECT ===== */
+
 
 .upload-box{
 
@@ -903,7 +882,7 @@ margin-bottom:15px;
     display:inline-block;
 }
 
-/* FIX PROJECT PAGE */
+
 
 .project-card,
 .exp-card,
@@ -926,7 +905,7 @@ transition:.2s;
 
 }
 
-/* ===== SKILL ===== */
+
 
 select{
 
@@ -954,9 +933,7 @@ color:white;
 
 }
 
-/* ================= DASHBOARD BARU ================= */
 
-/* SUBTITLE */
 
 .topbar p{
 
@@ -969,8 +946,6 @@ font-size:16px;
 }
 
 
-
-/* CARD DASHBOARD */
 
 .card{
 
@@ -1038,8 +1013,6 @@ color:white;
 
 
 
-/* PANEL */
-
 .latest{
 
 background:
@@ -1075,7 +1048,6 @@ margin-bottom:25px;
 
 
 
-/* GRID */
 
 .grid{
 
@@ -1093,8 +1065,6 @@ gap:20px;
 }
 
 
-
-/* BOX */
 
 .box{
 
@@ -1160,7 +1130,7 @@ line-height:1.8;
 
 
 
-/* HALO ADMIN */
+
 
 .topbar span{
 
@@ -1180,7 +1150,7 @@ color:#ff1493;
 
 
 
-/* RESPONSIVE */
+
 
 @media(max-width:700px){
 
@@ -1192,7 +1162,7 @@ grid-template-columns:1fr;
 
 }
 
-/* ===== LOGIN TAMBAHAN ===== */
+
 
 .back-link{
 
@@ -1260,7 +1230,7 @@ opacity:.8;
 
 }
 
-/* ===== PROJECT TAGS ===== */
+
 
 .project-tags{
     display:flex;

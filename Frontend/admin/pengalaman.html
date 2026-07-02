@@ -121,7 +121,7 @@ rows="5">
 
 </div>
 
-<!-- TAMBAHKAN BAGIAN INI -->
+
 <div class="input-group">
 
 <label>Foto Experience</label>
@@ -134,7 +134,7 @@ accept="image/*">
 <input type="hidden" id="image_url">
 
 </div>
-<!-- SAMPAI SINI -->
+
 
 <button type="submit">
 
@@ -162,8 +162,7 @@ Simpan
 
 <script>
 
-const API =
-"http://127.0.0.1:5000/api";
+const API = "/api";
 
 async function uploadImage(){
 
@@ -239,8 +238,6 @@ window.location=
 
 
 
-// LOAD
-
 async function loadExperience(){
 
 try{
@@ -309,8 +306,6 @@ console.log(err);
 }
 
 
-
-// CREATE UPDATE
 
 document
 .getElementById(
@@ -428,9 +423,6 @@ console.log(err);
 
 
 
-
-// EDIT
-
 async function editExperience(id){
 
 const res =
@@ -496,9 +488,6 @@ behavior:
 
 }
 
-
-
-// DELETE
 
 async function deleteExperience(id){
 

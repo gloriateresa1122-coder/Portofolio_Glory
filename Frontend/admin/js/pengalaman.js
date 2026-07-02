@@ -1,24 +1,17 @@
-// ===============================
-// LOGIN CHECK
-// ===============================
 if (!localStorage.getItem("token")) {
     window.location.href = "login.html";
 }
 
-// ===============================
-// LOGOUT
-// ===============================
+
 function logout() {
     localStorage.removeItem("token");
     window.location.href = "login.html";
 }
 
-// ===============================
-// LOAD DATA EXPERIENCE
-// ===============================
+
 async function loadExperience() {
     try {
-        const res = await fetch("http://127.0.0.1:5000/api/experiences");
+        const res = await fetch("/api/experiences");
         const result = await res.json();
 
         const container = document.getElementById("experienceList");
@@ -53,9 +46,7 @@ async function loadExperience() {
     }
 }
 
-// ===============================
-// TAMBAH EXPERIENCE
-// ===============================
+
 const form = document.querySelector("form");
 
 form.addEventListener("submit", async function (e) {
@@ -76,8 +67,7 @@ form.addEventListener("submit", async function (e) {
 
     try {
 
-        const response = await fetch(
-            "http://127.0.0.1:5000/api/experiences",
+        const res = await fetch("/api/experiences");
             {
                 method: "POST",
 
@@ -132,5 +122,5 @@ form.addEventListener("submit", async function (e) {
 
 });
 
-// ===============================
+
 loadExperience();
